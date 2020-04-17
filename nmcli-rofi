@@ -87,8 +87,8 @@ function menu () {
 
 function rofi_cmd () {
   # don't repeat lines with uniq -u
-  echo -e "$1" | uniq -u | rofi -dmenu -p "Wi-Fi SSID" -lines "$LINENUM" \
-    -location "$POSITION" -yoffset "$YOFF" -xoffset "$XOFF" -font "$FONT" -width "$RWIDTH"
+  echo -e "$1" | uniq -u | rofi -dmenu -i -p "Wi-Fi SSID" -lines $LINENUM \
+    -location $LOCATION -yoffset $YOFF -xoffset $XOFF -font "$FONT" -width $RWIDTH
 }
 
 function rofi_menu () {
@@ -106,7 +106,7 @@ function rofi_menu () {
 
 function get_ssid () {
     # get fields in order
-    eval FIELDSARR=( $(cat $NMCLI_ROFI_SOURCE | awk 'BEGIN { FS=","; OFS="\n" } /^FIELDS/ \
+    eval FIELDSARR=( $(test -f "$NMCLI_ROFI_SOURCE" && cat $NMCLI_ROFI_SOURCE | awk 'BEGIN { FS=","; OFS="\n" } /^FIELDS/ \
       { $1 = substr($1, 8); print $0; }') )
 
     # get position of SSID field
