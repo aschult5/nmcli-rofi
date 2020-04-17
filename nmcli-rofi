@@ -40,7 +40,8 @@ function toggle_wifi () {
 }
 
 function current_connection () {
-  currssid=$(iwgetid -r)
+  currssid=$(nmcli -t -f active,ssid dev wifi | egrep '^yes' |
+cut -d: -f2)
   [[ "$currssid" != '' ]] && currcon="Disconnect from $currssid" || currcon=""
   echo $currcon
 }
